@@ -1,0 +1,12 @@
+# Tested with Python 3.13.5 on macOS ARM64
+# Experiment tracking and model registry
+mlflow==3.6.0
+SQLAlchemy==2.0.58
+# Machine learning and numerical computing
+scikit-learn==1.7.2
+numpy==2.2.6
+scipy==1.18.1
+# Data processing
+pandas==2.3.3
+# Unit and integration testing
+pytest==9.2.0
