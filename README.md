@@ -246,11 +246,11 @@ The SQLite database and model artifacts are generated automatically during execu
 
 Open a second terminal in the project directory, activate the virtual environment, and run:
 
-    mlflow ui --backend-store-uri sqlite:///mlflow.db
+   mlflow ui --backend-store-uri sqlite:///mlflow.db --host 127.0.0.1 --port 5001
 
 Open the following address in a browser:
 
-http://127.0.0.1:5000
+http://127.0.0.1:5001
 
 Navigate to the `Lab1-ElasticNet-Advanced` experiment.
 
@@ -453,6 +453,31 @@ A future improvement would introduce a separate validation split or cross-valida
 ### Platform Compatibility
 
 The implementation was tested on macOS ARM64. Execution on Windows and Linux has not been independently verified.
+
+### Fresh Environment Verification
+
+To verify reproducibility, the project was installed
+and tested in a newly created virtual environment,
+separate from the original development environment.
+
+All dependencies were installed using requirements.txt.
+
+Dependency verification:
+    No broken requirements found.
+
+Test results:
+    9 passed, 9 warnings in 51.54s
+
+All eight unit tests and the end-to-end MLflow
+integration test passed successfully.
+
+This confirms that the documented installation
+procedure and pinned direct dependencies are
+sufficient to reproduce the tested workflow on
+macOS ARM64 with Python 3.13.5.
+
+The numerical runtime warnings remain consistent
+with those documented in the Known Limitations section.
 
 ## Troubleshooting
 
