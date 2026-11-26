@@ -33,7 +33,7 @@ The project uses the Scikit-learn Diabetes dataset to predict a quantitative mea
 | Model selection | Manual comparison | Automatic selection using RMSE |
 | Model registration | Conditional registration | Automatic registration of the selected model |
 | Model versioning | Basic registry functionality | Automated version creation and champion alias |
-| Model validation | No dedicated reproducibility validation | Independent registered model validation |
+| Model validation | No dedicated reproducibility validation | Registered model reproducibility validation |
 | Experiment reports | No automated comparison reports | JSON and CSV reports logged as artifacts |
 | Testing | No dedicated test suite | Eight unit tests and one integration test |
 
@@ -115,7 +115,14 @@ No cloud account, API key, Docker installation, or external database is required
 
 ### Step 1: Obtain the repository
 
-Clone the submitted GitHub repository using its HTTPS URL, or download the repository as a ZIP file and extract it.
+Clone the GitHub repository:
+
+```bash
+git clone https://github.com/alekhyabulusu/MLOps_lab5.git
+cd MLOps_lab5
+```
+
+Alternatively, download the repository as a ZIP file and extract it.
 
 Open a terminal inside the extracted or cloned project directory.
 
@@ -246,7 +253,9 @@ The SQLite database and model artifacts are generated automatically during execu
 
 Open a second terminal in the project directory, activate the virtual environment, and run:
 
-   mlflow ui --backend-store-uri sqlite:///mlflow.db --host 127.0.0.1 --port 5001
+```bash
+mlflow ui --backend-store-uri sqlite:///mlflow.db --host 127.0.0.1 --port 5001
+```
 
 Open the following address in a browser:
 
@@ -402,6 +411,31 @@ The integration test uses a temporary SQLite database and temporary artifact sto
 
 All nine tests passed, including the complete MLflow lifecycle integration test.
 
+### Fresh Environment Verification
+
+To verify reproducibility, the project was installed
+and tested in a newly created virtual environment,
+separate from the original development environment.
+
+All dependencies were installed using requirements.txt.
+
+Dependency verification:
+    No broken requirements found.
+
+Test results:
+    9 passed, 9 warnings in 51.54s
+
+All eight unit tests and the end-to-end MLflow
+integration test passed successfully.
+
+This confirms that the documented installation
+procedure and pinned direct dependencies are
+sufficient to reproduce the tested workflow on
+macOS ARM64 with Python 3.13.5.
+
+The numerical runtime warnings remain consistent
+with those documented in the Known Limitations section.
+
 ## Screenshots
 
 ### Nested Experiment Runs
@@ -454,31 +488,6 @@ A future improvement would introduce a separate validation split or cross-valida
 
 The implementation was tested on macOS ARM64. Execution on Windows and Linux has not been independently verified.
 
-### Fresh Environment Verification
-
-To verify reproducibility, the project was installed
-and tested in a newly created virtual environment,
-separate from the original development environment.
-
-All dependencies were installed using requirements.txt.
-
-Dependency verification:
-    No broken requirements found.
-
-Test results:
-    9 passed, 9 warnings in 51.54s
-
-All eight unit tests and the end-to-end MLflow
-integration test passed successfully.
-
-This confirms that the documented installation
-procedure and pinned direct dependencies are
-sufficient to reproduce the tested workflow on
-macOS ARM64 with Python 3.13.5.
-
-The numerical runtime warnings remain consistent
-with those documented in the Known Limitations section.
-
 ## Troubleshooting
 
 ### SQLAlchemy Import Error
@@ -492,9 +501,15 @@ If MLflow reports an import error involving `FallbackAsyncAdaptedQueuePool`, ver
 
 Ensure that the dashboard uses the same SQLite database as the experiment:
 
-    mlflow ui --backend-store-uri sqlite:///mlflow.db
+```bash
+mlflow ui --backend-store-uri sqlite:///mlflow.db --host 127.0.0.1 --port 5001
+```
 
 Run the command from the project root directory.
+
+Open http://127.0.0.1:5001 in a web browser.
+
+On macOS, port 5000 may already be occupied by another system service, such as AirPlay Receiver. Using port 5001 avoids this potential conflict.
 
 ### Registered Model Not Found
 
@@ -517,6 +532,6 @@ Then run:
 
 This lab extends basic MLflow experiment tracking into an automated model lifecycle management workflow.
 
-The implementation demonstrates reproducible experimentation, hierarchical run organization, dataset lineage, automatic model selection, model registration, model versioning, artifact management, and independent registered model validation.
+The implementation demonstrates reproducible experimentation, hierarchical run organization, dataset lineage, automatic model selection, model registration, model versioning, artifact management, and registered model reproducibility validation without retraining.
 
 Successful experiment execution, MLflow dashboard verification, model registry verification, reproducible evaluation metrics, and nine passing tests demonstrate the functionality of the modified implementation.
